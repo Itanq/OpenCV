@@ -90,6 +90,20 @@ void distanceTrans(cv::Mat srcImage, cv::Mat &resultImage)
 	resultImage = srcBinary.clone();
 }
 
+
+// opencv 自带的图像距离变换函数
+// distanceTransform(src,dst,distanceType,maskSize)
+void TestDistanceTransform(cv::Mat srcImage, cv::Mat &resultImage)
+{
+	cv::Mat srcBinary;
+	cv::Mat srcGray;
+	cv::cvtColor(srcImage, srcGray, CV_BGR2GRAY);
+	cv::threshold(srcGray, srcBinary, 100, 255, CV_THRESH_BINARY);
+	cv::imshow("srcBinary", srcBinary);
+	cv::distanceTransform(srcBinary, resultImage, CV_DIST_L2, CV_DIST_MASK_PRECISE);
+	cv::normalize(resultImage, resultImage, 0, 1.0, cv::NORM_MINMAX);
+}
+
 int main()
 {
 	cv::Mat srcImage = cv::imread("dota2.png");
@@ -100,7 +114,8 @@ int main()
 	}
 
 	cv::Mat resultImage;
-	distanceTrans(srcImage, resultImage);
+//	distanceTrans(srcImage, resultImage);
+	TestDistanceTransform(srcImage, resultImage);
 	cv::imshow("resultImage", resultImage);
 	cv::waitKey(0);
 	return 0;
