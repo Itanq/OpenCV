@@ -68,22 +68,29 @@ void testNeihbourInterpolationcpp(cv::Mat srcImage)
 }
 #endif
 
-// srcImage 按最邻近插值的方式采样缩放,
+// 按最邻近插值的方式采样缩放,原理是提取源图像中与其邻域最近像素值作为目标图像的对应点像素值
+// 若有源图像F(x,y)分辨率为H*W,缩放后的目标图像G(x1,y1)分辨率为h*w,则其最邻近插值的公式如下:
+// x=int(x1*(float)W/w)
+// y=int(y1*(float)H/h);
 // 行列的缩放因子分别为yscalar和xscalar
 cv::Mat neihbourInterpolation(cv::Mat srcImage, float yscalar, float xscalar)
 {
+	// 目标矩阵缩放后的大小
 	int dstrows = srcImage.rows*yscalar;
 	int dstcols = srcImage.cols*xscalar;
 
 	cv::Mat dstImage(dstrows, dstcols, srcImage.type(), cv::Scalar::all(0));
 	for (int i = 0; i < dstrows; ++i)
 	{
+		// 对应源图像的坐标,取整.
 		int ir = cvFloor(i / yscalar);
 		for (int j = 0; j < dstcols; ++j)
 		{
 			int jc = cvFloor(j / xscalar);
+			// 边界处理,防止指针越界
 			if (ir > srcImage.rows - 1) ir = srcImage.rows - 1;
 			if (jc > srcImage.cols - 1) jc = srcImage.cols - 1;
+			// 映射源图像值到目标矩阵相应位置
 			if(srcImage.channels()==1)
 				dstImage.at<uchar>(i, j) = srcImage.at<uchar>(ir, jc);
 			else
