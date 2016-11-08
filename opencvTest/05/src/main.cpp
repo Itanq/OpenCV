@@ -1,8 +1,7 @@
 #include"EdgeDetection.h"
 
-#define marrhildreth
+#define sobelVer
 
-#ifndef marrhildreth
 int main()
 {
     char* pfile = "../image/home.jpg";
@@ -11,6 +10,14 @@ int main()
 #ifdef sobel
     unsigned char threshold=125;
     edgeDetect.sobelEdge(threshold);
+#endif
+
+#ifdef diff
+    edgeDetect.DiffOperation();
+#endif
+
+#ifdef sobelVer
+    edgeDetect.sobelVerEdge();
 #endif
 
 #ifdef sobelOpt
@@ -32,8 +39,8 @@ int main()
     edgeDetect.show();
     return 0;
 }
-#endif
 
+#ifdef Houg
 int main()
 {
     cv::Mat srcImage = cv::imread("../image/home.jpg", 0);
@@ -50,3 +57,5 @@ int main()
 
 #endif
 }
+
+#endif

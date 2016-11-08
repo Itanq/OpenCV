@@ -35,7 +35,6 @@ void EdgeDetect::DiffOperation()
     cv::Mat edgeYImage(srcImage.size(), srcImage.type());
     int rows = srcImage.rows-1;
     int cols = srcImage.cols-1;
-    std::cout << " cols: " << cols << std::endl; 
     for(int i=0; i<rows; ++i)
     {
         for(int j=0; j<cols; ++j)
@@ -58,6 +57,7 @@ void EdgeDetect::DiffOperation()
 // 判断当前邻域梯度是否大于水平或垂直邻域梯度 自适应完成边缘检测
 void EdgeDetect::sobelVerEdge()
 {
+    clock_t t1 = clock();
     CV_Assert(srcImage.channels()==1);
     srcImage.convertTo(srcImage, CV_32FC1);
     // sobel算子
@@ -71,9 +71,9 @@ void EdgeDetect::sobelVerEdge()
     // 根据幅度值及参数自适应计算阈值
     int scaleVal = 4;
     double thresh = scaleVal*cv::mean(graMat).val[0];
-    cv::Mat resultTmpMat = cv::Mat::zeros(graMat.size(), graMat.type());
+    edgeImage = cv::Mat::zeros(graMat.size(), graMat.type());
     float* pDataMag = (float*)graMat.data;
-    float* pDataRes = (float*)resultTmpMat.data;
+    float* pDataRes = (float*)edgeImage.data;
     const int nRows = conMat.rows-1;
     const int nCols = conMat.cols-1;
     for(int i=1; i<nRows; ++i)
@@ -87,8 +87,10 @@ void EdgeDetect::sobelVerEdge()
         // 判断邻域梯度是否满足大于水平或垂直梯度的条件
         pDataRes[i*nCols+j] = 255*((pDataMag[i*nCols+j]>thresh) && ((b1&&b2)||(b3&&b4)));
     }
-    resultTmpMat.convertTo(resultTmpMat, CV_8UC1);
-    edgeImage = resultTmpMat.clone();
+    edgeImage.convertTo(edgeImage, CV_8UC1);
+    srcImage.convertTo(srcImage, CV_8UC1);
+    clock_t t2 = clock();
+    std::cout << "sobelverEdge cost all time = " << static_cast<double>(t2-t1)*1000/CLOCKS_PER_SEC << " ms.\n";
 }
 
 
