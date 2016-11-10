@@ -16,7 +16,8 @@ class ShapeDetect
         void show();
         int loadImage(char* pfile, int flag);
         void opencvContours(int mode, int method, int thresh);
-        void opencvConvexHull();
+        void opencvConvexHull(int thresh, int max_thresh);
+
     private:
 
         std::vector<cv::Vec4i> hierarchy;

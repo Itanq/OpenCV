@@ -1,7 +1,9 @@
 #include"EdgeDetection.h"
+#include"HoughTrans.h"
 
 #define sobelVer
 
+#ifdef EDGEDETECT_TEST
 int main()
 {
     char* pfile = "../image/home.jpg";
@@ -39,23 +41,26 @@ int main()
     edgeDetect.show();
     return 0;
 }
+#endif
 
-#ifdef Houg
+
+#define HOUGHDETECT_TEST
+#ifdef HOUGHDETECT_TEST
 int main()
 {
-    cv::Mat srcImage = cv::imread("../image/home.jpg", 0);
-    if(srcImage.empty())
-    {
-        std::cout << " the image is error " << std::endl;
-        return -1;
-    }
-    cv::Mat edgeMat, houghMat;
-    cv::canny(srcImage, edgeMat, 50, 200, 3);
-    cv::cvtColor(edgeMat, houghMat, CV_GRAY2BGR);
-#if 0
-    std::vector<cv::Vec2f> lines;
+    HoughTrans houghTrans;
+    houghTrans.loadImage("../image/road.jpg", 1);
 
+#if 0
+    houghTrans.opencvHoughTransLine(1, CV_PI/180.0, 100);
+#else
+    houghTrans.opencvHoughTransCircle(CV_HOUGH_GRADIENT);
 #endif
+
+    houghTrans.show();
+
+    
+    return 0;
 }
 
 #endif

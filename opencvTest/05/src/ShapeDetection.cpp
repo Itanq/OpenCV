@@ -46,6 +46,7 @@ void ShapeDetect::opencvContours(int mode, int method, int thresh)
     }
 }
 
+#if 0
 void ShapeDetect::opencvConvexHull(int thresh, int max_thresh)
 {
     cv::cvtColor(srcImage, grayImage, CV_BGR2GRAY);
@@ -77,3 +78,4 @@ void ShapeDetect::thresh_callback(int , void*)
         convexityDefectes(cv::Mat(contour[i], ))
     }
 }
+#endif
