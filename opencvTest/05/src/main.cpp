@@ -1,6 +1,7 @@
 #include"EdgeDetection.h"
 #include"HoughTrans.h"
 #include"ShapeDetection.h"
+#include"CornerDetection.h"
 
 #define sobelVer
 
@@ -66,7 +67,7 @@ int main()
 #endif
 
 
-#ifndef SHAPEDETECT_TEST
+#ifdef SHAPEDETECT_TEST
 int main()
 {
     ShapeDetect shapeDetect;
@@ -90,4 +91,24 @@ int main()
     return 0;
 }
 #endif
+
+
+#define CORNERDETECT_TEST
+#ifdef CORNERDETECT_TEST
+int main()
+{
+    CornerDetect cornerDetect;
+    cornerDetect.loadImage("../image/tiaosan.jpg",1);
+#if 0
+    cornerDetect.cacMoravec(5,135000);
+#elif 1-1
+    cornerDetect.cacHarris(2, 3, 0.04);
+#else
+    cornerDetect.cacShi_Tomasi();
+#endif
+    cornerDetect.show();
+    return 0;
+}
+#endif
+
 
