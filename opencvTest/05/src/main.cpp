@@ -1,5 +1,6 @@
 #include"EdgeDetection.h"
 #include"HoughTrans.h"
+#include"ShapeDetection.h"
 
 #define sobelVer
 
@@ -44,7 +45,6 @@ int main()
 #endif
 
 
-#define HOUGHDETECT_TEST
 #ifdef HOUGHDETECT_TEST
 int main()
 {
@@ -64,3 +64,30 @@ int main()
 }
 
 #endif
+
+
+#ifndef SHAPEDETECT_TEST
+int main()
+{
+    ShapeDetect shapeDetect;
+    shapeDetect.loadImage("../image/tiaosan.jpg", 1);
+#ifdef one
+#if 1-1
+    shapeDetect.opencvContours(CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, 100);
+#elif 2-2
+    shapeDetect.opencvConvexHull(145);
+#endif
+    shapeDetect.show();
+#endif
+
+#ifdef two
+    shapeDetect.opencvClosingPoint();
+#endif
+
+    shapeDetect.cacBounding();
+    shapeDetect.cacBoundRectAnyDirect();
+    cv::waitKey(0);
+    return 0;
+}
+#endif
+
