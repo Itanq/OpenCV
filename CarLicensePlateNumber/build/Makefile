@@ -1,10 +1,10 @@
-SRC=../src
-OBJ=../obj
+SRC=$(SRCDIR)
+OBJ=$(OBJDIR)
 
 INCLUDE=-I/usr/local/include \
-		-I$(SRC)/../include
+		-I$(ProjDir)/include
 
-LIBSDIR=-L/usr/local/
+LIBSDIR=-L/usr/local/ \
 
 sourcefile=$(wildcard $(SRC)/*.cpp)
 objectfile=$(addprefix $(OBJ)/,$(subst .cpp,.o,$(notdir $(sourcefile))))
